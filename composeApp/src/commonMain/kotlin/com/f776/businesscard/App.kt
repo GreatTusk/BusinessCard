@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -54,6 +55,7 @@ fun App() {
             modifier = Modifier
                 .background(bgColor)
                 .fillMaxSize()
+                .padding(top = 32.dp, bottom = 32.dp, start = 16.dp, end = 16.dp)
         ) {
             Column(
                 modifier = Modifier.align(Alignment.Center),
@@ -62,11 +64,8 @@ fun App() {
             ) {
                 BusinessCard()
             }
-            ContactInfo(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 32.dp)
-            )
+            ContactInfo(modifier = Modifier.padding(start = 52.dp, end = 52.dp)
+                .align(Alignment.BottomCenter))
         }
     }
 }
@@ -82,20 +81,20 @@ fun BusinessCard(modifier: Modifier = Modifier) {
             contentDescription = null,
             modifier = Modifier.size(144.dp)
         )
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(Res.string.name),
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
             fontSize = 32.sp,
-            color = textColor
+            color = textColor,
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = stringResource(Res.string.title),
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
             fontSize = 20.sp,
-            color = secondaryTextColor
+            color = secondaryTextColor,
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -103,59 +102,50 @@ fun BusinessCard(modifier: Modifier = Modifier) {
 @Composable
 fun ContactInfo(modifier: Modifier = Modifier) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
         modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Call,
-                contentDescription = "telephone",
-                tint = secondaryTextColor,
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = stringResource(Res.string.phone_number),
-                color = textColor,
-                textAlign = TextAlign.Start
-            )
-        }
-        Spacer(Modifier.height(8.dp))
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Add,
-                contentDescription = "media handle",
-                tint = secondaryTextColor
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = stringResource(Res.string.social_media_handle),
-                color = textColor,
-                textAlign = TextAlign.Start
-            )
-        }
-        Spacer(Modifier.height(8.dp))
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.MailOutline,
-                contentDescription = "mail",
-                tint = secondaryTextColor
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = stringResource(Res.string.email),
-                color = textColor,
-                textAlign = TextAlign.Start
-            )
-        }
+        ContactRow(
+            icon = Icons.Outlined.Call,
+            text = stringResource(Res.string.phone_number),
+            description = "telephone"
+        )
+        ContactRow(
+            icon = Icons.Outlined.Add,
+            text = stringResource(Res.string.social_media_handle),
+            description = "social media handle"
+        )
+        ContactRow(
+            icon = Icons.Outlined.MailOutline,
+            text = stringResource(Res.string.email),
+            description = "email"
+        )
+    }
+}
+
+@Composable
+fun ContactRow(icon: ImageVector, text: String, description: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = description,
+            tint = secondaryTextColor,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = text,
+            color = textColor,
+            fontSize = 16.sp
+        )
     }
 }
